@@ -5,7 +5,7 @@ This project reproduces the issue.
 ## Tools used:
 
 * JDK 1.8.0_112
-* Maven 3.3.9
+* [Maven 3.3.9](https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/)
 
 ## How to reproduce
 
