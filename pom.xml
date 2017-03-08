@@ -176,6 +176,43 @@
 
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.0.0</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>getClasspathFilenames</id>
+            <goals>
+              <goal>properties</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+          <execution>
+            <id>copy-quasar</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>co.paralleluniverse</groupId>
+                  <artifactId>quasar-core</artifactId>
+                  <version>${quasar.version}</version>
+                  <type>jar</type>
+                  <classifier>jdk8</classifier>
+                  <outputDirectory>${project.basedir}/build/lib</outputDirectory>
+                  <destFileName>quasar.jar</destFileName>
+                  <overWrite>true</overWrite>
+                </artifactItem>
+              </artifactItems>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>
@@ -209,11 +246,13 @@
         <configuration>
           <executable>java</executable>
           <arguments>
+            <argument>-javaagent:build/lib/quasar.jar</argument>
             <argument>-classpath</argument><classpath/>
             <argument>io.dazraf.reproducer.Runner</argument>
           </arguments>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 
